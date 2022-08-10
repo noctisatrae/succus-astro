@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
 
-const isConnected = atom();
+const isConnected = atom(false);
 
 export default isConnected;
