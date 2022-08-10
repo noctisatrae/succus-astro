@@ -1,0 +1,38 @@
+{
+  "name": "@example/basics",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^1.0.0",
+    "@astrojs/solid-js": "^1.0.0",
+    "@astrojs/tailwind": "^1.0.0",
+    "astro": "^1.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "solid-js": "^1.4.8"
+  },
+  "imports": {
+    "$components": "./components/",
+    "$layouts": "./layouts"
+  },
+  "dependencies": {
+    "@nanostores/react": "^0.3.0",
+    "@nanostores/solid": "^0.1.6",
+    "@solidjs/router": "^0.4.2",
+    "@walletconnect/web3-provider": "^1.8.0",
+    "daisyui": "^2.22.0",
+    "eth-hooks": "^4.6.0",
+    "ethers": "^5.6.9",
+    "gun": "^0.2020.1238",
+    "nanostores": "^0.6.0",
+    "react-blockies": "^1.4.1",
+    "web3modal": "^1.9.8"
+  }
+}

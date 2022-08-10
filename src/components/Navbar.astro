@@ -1,0 +1,11 @@
+---
+import {Wallet} from "$";
+---
+<div class="navbar bg-base-200">
+    <div class="flex-1">
+      <a href="/" class="btn btn-ghost normal-case text-xl">succus</a>
+    </div>
+    <div class="flex-none">
+        <Wallet client:only="react"/>
+    </div>
+</div>
