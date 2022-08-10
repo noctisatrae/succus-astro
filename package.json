@@ -12,11 +12,13 @@
   "devDependencies": {
     "@astrojs/react": "^1.0.0",
     "@astrojs/solid-js": "^1.0.0",
+    "@astrojs/svelte": "^1.0.0",
     "@astrojs/tailwind": "^1.0.0",
     "astro": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "solid-js": "^1.4.8"
+    "solid-js": "^1.4.8",
+    "svelte": "^3.49.0"
   },
   "imports": {
     "$components": "./components/",
@@ -24,11 +26,9 @@
   },
   "dependencies": {
     "@nanostores/react": "^0.3.0",
-    "@nanostores/solid": "^0.1.6",
     "@solidjs/router": "^0.4.2",
     "@walletconnect/web3-provider": "^1.8.0",
     "daisyui": "^2.22.0",
-    "eth-hooks": "^4.6.0",
     "ethers": "^5.6.9",
     "gun": "^0.2020.1238",
     "nanostores": "^0.6.0",

@@ -1,18 +1,18 @@
 import { defineConfig } from 'astro/config';
 import path from "path";
 import { fileURLToPath } from 'url';
-
 import tailwind from "@astrojs/tailwind";
-
 import react from "@astrojs/react";
 import solid from "@astrojs/solid-js";
+import svelte from "@astrojs/svelte";
 
 const __filename = fileURLToPath(import.meta.url);
+
 const __dirname = path.dirname(__filename);
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), solid()],
+  integrations: [tailwind(), react(), solid(), svelte()],
   vite: {
     resolve: {
       alias: {
