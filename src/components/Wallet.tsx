@@ -3,9 +3,11 @@ import WalletConnectProvider from "@walletconnect/web3-provider/dist/umd/index.m
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import Blockies from "react-blockies";
+import { useStore } from "@nanostores/react";
 
 import { INFURA_ID } from "&";
 import {Address} from "$";
+import {isConnected as nanoIsConnected} from "%";
 
 /*
   Web3 modal helps us "connect" external wallets:
@@ -37,6 +39,8 @@ const Wallet = () => {
     const [address, setAddress] = useState();
     const [isConnected, setIsConnected] = useState();
 
+    const $isConnected = useStore(nanoIsConnected);
+
     const loadWeb3Modal = useCallback(async () => {
       const provider = await web3Modal.connect();
       setInjectedProvider(new ethers.providers.Web3Provider(provider)) 
@@ -64,7 +68,16 @@ const Wallet = () => {
             setAddress(theAddress);
             setIsConnected(true);
         })
+        console.log($isConnected)
     }, [InjectedProvider]) 
+
+    useEffect(() => {
+
+      if (InjectedProvider === undefined) {
+        console.log("No injected provider -- setting $isConnected to false")
+        nanoIsConnected.set(false);
+      } else nanoIsConnected.set(true)
+    }, [isConnected])
     
     useEffect(() => {
       if (web3Modal.cachedProvider) {
@@ -89,7 +102,7 @@ const Wallet = () => {
                         <Blockies seed={address}></Blockies>
                       </div>
                     </label>
-                    <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52">
+                    <ul tabindex="0" class="menu menu-compact bg-base-300 dropdown-content mt-3 p-2 shadow rounded-box w-52">
                       <li><Address ethAddress={address}></Address></li>
                       <li><a href="/inbox">Inbox</a></li>
                       <li><button onClick={logoutOfWeb3Modal}>Log Out</button></li>

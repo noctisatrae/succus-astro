@@ -3,6 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Main from "../components/Main.svelte";
 ---
 
-<Layout title="succus - inbox">
-    <Main></Main>
+<Layout title="succus">
+    <Main client:only="svelte"></Main>
 </Layout>
