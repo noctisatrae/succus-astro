@@ -21,7 +21,8 @@
       "@'":["src/layouts"],
       "#": ["src/hooks"],
       "&":["src/web3"],
-      "%": ["src/stores"]
+      "%": ["src/stores"],
+      "db": ["src/db"]
     }
   }
 }

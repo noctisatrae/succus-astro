@@ -7,7 +7,7 @@ import { useStore } from "@nanostores/react";
 
 import { INFURA_ID } from "&";
 import {Address} from "$";
-import {isConnected as nanoIsConnected} from "%";
+import {isConnected as nanoIsConnected, ethAddress as nanoEthAddress, ethAddress} from "%";
 
 /*
   Web3 modal helps us "connect" external wallets:
@@ -36,12 +36,14 @@ const logoutOfWeb3Modal = async () => {
 const Wallet = () => {
 
     const [ InjectedProvider, setInjectedProvider ] = useState();
-    const [address, setAddress] = useState();
+    const [address, setAddress] = useState<number>();
     const [isConnected, setIsConnected] = useState();
 
     const $isConnected = useStore(nanoIsConnected);
+    const $ethAddress = useStore(nanoEthAddress);
 
     const loadWeb3Modal = useCallback(async () => {
+
       const provider = await web3Modal.connect();
       setInjectedProvider(new ethers.providers.Web3Provider(provider)) 
 
@@ -68,7 +70,8 @@ const Wallet = () => {
             setAddress(theAddress);
             setIsConnected(true);
         })
-        console.log($isConnected)
+        console.log($isConnected);
+        console.log($ethAddress);
     }, [InjectedProvider]) 
 
     useEffect(() => {
@@ -76,8 +79,18 @@ const Wallet = () => {
       if (InjectedProvider === undefined) {
         console.log("No injected provider -- setting $isConnected to false")
         nanoIsConnected.set(false);
-      } else nanoIsConnected.set(true)
+      } else {
+        nanoIsConnected.set(true)
+      }
     }, [isConnected])
+
+    useEffect(() => {
+
+      if (address != undefined) {
+        nanoEthAddress.set(address)
+      } else console.log("address is undefined -- not setting nanostore")
+
+    }, [address])
     
     useEffect(() => {
       if (web3Modal.cachedProvider) {

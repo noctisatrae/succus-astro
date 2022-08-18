@@ -29,7 +29,7 @@
     "@walletconnect/web3-provider": "^1.8.0",
     "daisyui": "^2.22.0",
     "ethers": "^5.6.9",
-    "gun": "^0.2020.1238",
+    "gun": "latest",
     "nanostores": "^0.6.0",
     "react-blockies": "^1.4.1",
     "web3modal": "^1.9.8"

@@ -1,6 +1,6 @@
 {#if $isConnected}
 
-  <Chat/>
+  <Chat client:visible />
 
   {:else}
 
@@ -9,7 +9,7 @@
 {/if}
 
 <script>
-  import { isConnected } from "../stores"
+  import { isConnected } from "%"
 
   import Landing from "./Landing.svelte";
   import Chat from "./Chat.svelte";
