@@ -13,15 +13,15 @@ const __dirname = path.dirname(__filename);
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react(), solid(), svelte()],
-  vite: {
-    resolve: {
-      alias: {
-        "$": path.resolve(__dirname, "src/components"),
-        "@": path.resolve(__dirname, "src/layouts"),
-        "#": path.resolve(__dirname, "src/hooks"),
-        "&": path.resolve(__dirname, "src/web3"),
-        "%": path.resolve(__dirname, "src/stores")
-      }
-    }
-  }
+  // vite: {
+  //   resolve: {
+  //     alias: {
+  //       "$": path.resolve(__dirname, "src/components"),
+  //       "@": path.resolve(__dirname, "src/layouts"),
+  //       "#": path.resolve(__dirname, "src/hooks"),
+  //       "&": path.resolve(__dirname, "src/web3"),
+  //       "%": path.resolve(__dirname, "src/stores")
+  //     }
+  //   }
+  // }
 });

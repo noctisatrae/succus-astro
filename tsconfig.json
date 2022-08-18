@@ -14,13 +14,14 @@
     // Enable strict type checking.
     "strict": false,
     // Error when a value import is only used as a type.
+    "baseUrl": "./",
     "importsNotUsedAsValues": "error",
     "paths": {
-      "$":["./src/components/"],
-      "@":["./src/layouts/"],
-      "#": ["./src/hooks"],
-      "&":["./src/web3"],
-      "%": ["./src/stores"]
+      "$":["src/components"],
+      "@'":["src/layouts"],
+      "#": ["src/hooks"],
+      "&":["src/web3"],
+      "%": ["src/stores"]
     }
   }
 }

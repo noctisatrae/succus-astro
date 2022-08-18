@@ -9,7 +9,7 @@
 {/if}
 
 <script>
-  import { isConnected } from "%"
+  import { isConnected } from "../stores"
 
   import Landing from "./Landing.svelte";
   import Chat from "./Chat.svelte";
