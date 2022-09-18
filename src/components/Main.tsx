@@ -15,7 +15,6 @@ const timeAgo = new TimeAgo('en-US')
 const gunKeypair = await SEA.pair();
 
 dbConf({
-    
     peers:['https://gun-manhattan.herokuapp.com/gun', 'https://gun-us.herokuapp.com/gun', "https://gunpoint.herokuapp.com/gun"]
 })
 
