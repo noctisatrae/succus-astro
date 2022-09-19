@@ -1,6 +1,5 @@
 import Gun from "gun";
 import "gun/sea";
-import "gun/axe";
 
 const SEA = Gun.SEA;
 
