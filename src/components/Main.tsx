@@ -1,6 +1,7 @@
 /* jsxImportSource react-jsx */
 import React, { useState, useEffect } from "react";
 import TimeAgo from 'javascript-time-ago'
+import Blockies from 'react-blockies';
 
 import { sendmessage, receiveMessage, SEA, getKeypair, registerKeypair, getProvider, dbConf } from "succus";
 
@@ -15,6 +16,10 @@ const ethRegex = /^0x[a-fA-F0-9]{40}$/g
 const isEthAddress = (address:string) => {
     if (ethRegex.test(address)) return true
     else return false
+}
+
+const shortenAddress = (address: string) => {
+    return `${address.slice(0, 6)}...`
 }
 
 dbConf({
@@ -34,7 +39,9 @@ const Main = ({chat}) => {
         await receiveMessage([chat], async ({encryptedMSG, date, from, ensFrom}) => {
             
             const decrypted = await SEA.decrypt(encryptedMSG, gunKeypair);
-            await setMessages(prev => [...prev, { content:decrypted, sentAt:date, from: from, name: ensFrom }]);
+
+            if (decrypted != undefined) await setMessages(prev => [...prev, { content:decrypted, sentAt:date, from: from, name: ensFrom }]);
+            else console.log("string empty")
         });
     }
 
@@ -78,7 +85,13 @@ const Main = ({chat}) => {
     </div>
 
     {messages.map(({content, name, from, sentAt}) => (
-        <li>{content} - {timeAgo.format(sentAt)} by {name}</li>
+        <li className="list-none">
+            <div className="inline">
+                <Blockies className="rounded-full" seed={from}></Blockies> <h2>{(name === null ? shortenAddress(from) : name)}</h2>
+
+                <p className="inline">{content}</p>
+            </div>
+        </li>
     ))}
 </div> : <p>not an eth address</p> )
 }
