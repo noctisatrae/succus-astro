@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import TimeAgo from 'javascript-time-ago'
 
-import { sendmessage, receiveMessage, SEA, getKeypair, registerKeypair } from "succus";
+import { sendmessage, receiveMessage, SEA, getKeypair, registerKeypair, getProvider } from "succus";
 
 // English.
 import en from 'javascript-time-ago/locale/en'
@@ -10,55 +10,75 @@ import en from 'javascript-time-ago/locale/en'
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
-const gunKeypair = {pub: '24sFqelMjISareVwxjBzEis1GsVyBL82P1sxUbLB_JI.wGBPSof3EwGHw6ITReATTUco0INz5-qFZA_TFEV5i9U', priv: 'UOOT4jK0V-5G7HaOWCEKy529rEmWjxe9BnUewG55a7o', epub: 'GhjvQH2DcJip7kIhvrcGZPQBv7gSSZ7aLJOG96anZ10.u-oN-R7p8xmbiBjSyodssX9yaJTOGPEWnfQrSuBZNZw', epriv: 'gaKPOm_Wlv7GLB36iNcBAOr8TIGU17qtw71bYej6pk8'}
+const ethRegex = /^0x[a-fA-F0-9]{40}$/g
 
-const address = "0x84673f99d9807780ce5Db4c3A980d708535d9604"
+const isEthAddress = (address:string) => {
+    if (ethRegex.test(address)) return true
+    else return false
+}
 
 const Main = () => {
 
     const [msgInput, setMsgInput] = useState("");
     const [messages, setMessages] = useState([]);
 
+    const [addressInput, setAddressInput] = useState("");
+    const [gunKeypair, setGunKeypair] = useState("");
+
     const updateMsg = async () => {
+        if (isEthAddress(addressInput)) {
 
-        await receiveMessage([address], async ({encryptedMSG, date, from, ensFrom}) => {
+            console.log("Is an ETH address.")
 
-            console.log(encryptedMSG)
+            await setGunKeypair(await getKeypair(addressInput)); 
 
-            const decrypted = await SEA.decrypt(encryptedMSG, gunKeypair);
-            await console.log(decrypted)
+            await receiveMessage([addressInput], async ({encryptedMSG, date, from, ensFrom}) => {
 
-            await setMessages(prev => [...prev, { content:decrypted, sentAt:date, from: from, name: ensFrom }]);
-        });
+                console.log(encryptedMSG)
+    
+                const decrypted = await SEA.decrypt(encryptedMSG, gunKeypair);
+                await console.log(decrypted)
+    
+                await setMessages(prev => [...prev, { content:decrypted, sentAt:date, from: from, name: ensFrom }]);
+            });
+        } else {
+            console.log("Is not an ETH address.")
+         }
     }
 
     useEffect(() => {
-
-        (async () => {
-            await registerKeypair(address, gunKeypair);
-
-            const {epub, pub} = await getKeypair(address)
-            
-            console.log({epub, pub})
-        })();
-
-    }, [])
-
-    useEffect(() => {
         updateMsg()
-    }, [setMessages])
+    }, [setMessages, addressInput])
 
     return <div>
 
-        <input type="text" class="input" onInput={(e) => {
-            setMsgInput(e.target.value);
-        }}  placeholder="msg..."/>
+        <div>
+            <div>
+                <input type="text" className="input input-primary" onInput={(e) => {
+                    setMsgInput(e.target.value);
+                }}  placeholder="msg..."/>
 
-        <p>{msgInput}</p>
-        <button class="btn btn-secondary" onClick={async () => {
-            console.log("[output]: ", await sendmessage(msgInput, [address], gunKeypair));
-        }}>Send</button>
+                <button className="btn btn-secondary" onClick={async () => {
+                    console.log("[output]: ", await sendmessage(msgInput, [addressInput], gunKeypair));
+                }}>Send</button> 
+                <br /><br />
 
+                <input type="text" className="input input-primary" onInput={(e) => {
+                    setAddressInput(e.target.input);
+                }} placeholder="receiver..." />
+                <br /><br />
+                <button className="btn btn-secondary" onClick={async () => {
+                    const address = await (await getProvider()).getSigner().getAddress();
+                    console.log(address)
+                    await registerKeypair(address, await SEA.pair())
+                }}>Register keypair for address.</button>
+                <br /><br />
+                <button className="btn btn-secondary" onClick={async () => {
+                    console.log(await getKeypair(await (await getProvider()).getSigner().getAddress()))
+                }}>Get keypair</button>
+            </div>
+        </div>
+    
         {messages.map(({content, name, from, sentAt}) => (
             <li>{content} - {timeAgo.format(sentAt)} by {name}</li>
         ))}
