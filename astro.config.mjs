@@ -5,16 +5,18 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import solid from "@astrojs/solid-js";
 import svelte from "@astrojs/svelte";
+import vercel from "@astrojs/vercel/serverless";
 
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  integrations: [tailwind(), react(), svelte()],
-  // vite: {
+  integrations: [tailwind(), react(), svelte()] // vite: {
   //   resolve: {
   //     alias: {
   //       "$": path.resolve(__dirname, "src/components"),
@@ -25,4 +27,6 @@ export default defineConfig({
   //     }
   //   }
   // }
+  ,
+  adapter: vercel()
 });
