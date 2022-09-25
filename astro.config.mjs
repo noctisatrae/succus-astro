@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
   integrations: [tailwind(), react(), svelte()],
   // vite: {
   //   resolve: {

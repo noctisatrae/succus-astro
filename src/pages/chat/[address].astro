@@ -1,0 +1,10 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Main from "../../components/Main";
+
+const {address} = Astro.params;
+---
+
+<Layout title="succus">
+    <Main client:only="react" chat={address}></Main>
+</Layout>
